@@ -1,6 +1,6 @@
 # richblog
 
-iThis is a stab at a blog in Laravel.
+This is a stab at a blog in Laravel.
 
 It may contain some non best practice due to lack of experience with laravel, but where possible Laravel documentation has been followed.
 
@@ -28,6 +28,20 @@ Fix as follows:
     sudo setfacl -dR -m u:"www-data":rwX -m u:richard:rwX bootstrap
     sudo setfacl -R -m u:"www-data":rwX -m u:richard:rwX storage
     sudo setfacl -dR -m u:"www-data":rwX -m u:richard:rwX storage
+
+## Mongodb setup
+
+Connect to the running mongodb docker instance, admin database (this starts a mongo terminal):
+
+    docker exec -it mongodb mongo admin
+
+Create a database called 'homestead'
+
+    use homestead
+
+Add a properly insecure user/pass for testing purposes only
+
+    db.createUser({ user: 'user', pwd: 'pass', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
 
 ## Running laravel commands
 
