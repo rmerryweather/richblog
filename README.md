@@ -34,3 +34,9 @@ Fix as follows:
 Because we are running under an image called app we have to use docker-compose exec. For example:
 
     docker-compose exec app php artisan key:generate
+    
+## Running tests
+
+As above, we need to run tests using exec, E.g.
+
+    docker-compose exec app ./vendor/bin/phpunit
