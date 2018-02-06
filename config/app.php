@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Non-default providers
+         */
+
+        'Moloquent' => Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 
     /*
