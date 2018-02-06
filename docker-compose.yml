@@ -1,0 +1,55 @@
+version: '2'
+services:
+
+    app:
+        build:
+            context: ./
+            dockerfile: app.dockerfile
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        environment:
+            - "DB_PORT=3306"
+            - "DB_HOST=database"
+
+    web:
+        build:
+            context: ./
+            dockerfile: web.dockerfile
+        working_dir: /var/www
+        volumes_from:
+            - app
+        ports:
+            - 8080:80
+
+    database:
+        image: mysql:5.7
+        volumes:
+            - mysqldbdata:/var/lib/mysql
+        environment:
+            - "MYSQL_DATABASE=homestead"
+            - "MYSQL_USER=homestead"
+            - "MYSQL_PASSWORD=secret"
+            - "MYSQL_ROOT_PASSWORD=secret"
+        ports:
+            - "33061:3306"
+
+    mongodb:
+        image: mongo:latest
+        container_name: "mongodb"
+        environment:
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
+            - MONGODB_USER="user"
+            - MONGODB_PASS="pass"
+        volumes:
+            - mongodbdata:/data/db
+        ports:
+            - 27017:27017
+        command: mongod --smallfiles --logpath=/dev/null
+
+
+volumes:
+    mysqldbdata:
+    mongodbdata:
+
