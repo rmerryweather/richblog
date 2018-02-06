@@ -18,7 +18,16 @@ b) when composer has finished doing its thing
   
 The app should be available then at http://localhost:8080
 
-NB: need to fix permissions on startup
+NB: you may need to fix permissions for the web user that docker is running as - this depends on your docker setup and OS, but under mine (ubuntu 16.04) it is www-data. I used setfacl to achieve this as per symfony docs:
+
+    https://symfony.com/doc/2.7/setup/file_permissions.html
+
+Fix as follows:
+
+    sudo setfacl -R -m u:"www-data":rwX -m u:richard:rwX bootstrap
+    sudo setfacl -dR -m u:"www-data":rwX -m u:richard:rwX bootstrap
+    sudo setfacl -R -m u:"www-data":rwX -m u:richard:rwX storage
+    sudo setfacl -dR -m u:"www-data":rwX -m u:richard:rwX storage
 
 ## Running laravel commands
 
