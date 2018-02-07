@@ -9,13 +9,26 @@ use Illuminate\Support\Facades\Auth;
 class BlogPostController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $blogPosts = BlogPost::latest()->paginate(20);
+
+        return view('home',compact('blogPosts'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -43,10 +56,10 @@ class BlogPostController extends Controller
 
         $data = array_merge($request->all(), ['user_id' => Auth::id()]);
 
-        BlogPost::create($data);
+        $blogPost = BlogPost::create($data);
 
         return redirect()
-            ->route('home')
+            ->route('blogposts.show', $blogPost)
             ->with('success','Blog post created successfully');
     }
 
@@ -56,9 +69,9 @@ class BlogPostController extends Controller
      * @param  \App\BlogPost  $blogPost
      * @return \Illuminate\Http\Response
      */
-    public function show(BlogPost $blogPost)
+    public function show(BlogPost $blogpost)
     {
-        //
+        return view('blogpost.show',compact('blogpost'));
     }
 
     /**
@@ -69,7 +82,7 @@ class BlogPostController extends Controller
      */
     public function edit(BlogPost $blogPost)
     {
-        //
+        return view('blogpost.edit',compact('blogpost'));
     }
 
     /**
@@ -81,7 +94,24 @@ class BlogPostController extends Controller
      */
     public function update(Request $request, BlogPost $blogPost)
     {
-        //
+        if (!$this->checkUser($blogPost->id)) {
+            return redirect()->route('home')
+                ->with('error','This is not your post');
+        }
+
+        request()->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $data = array_merge($request->all(), ['user_id' => Auth::id()]);
+
+        $blogPost->update($data);
+        $blogPost->save();
+
+        return redirect()
+            ->route('blogposts.show', $blogPost)
+            ->with('success','Blog post updated successfully');
     }
 
     /**

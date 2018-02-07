@@ -16,11 +16,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-//        $members = Member::latest()->paginate(10);
-//        return view('members.index',compact('members'))
-//            ->with('i', (request()->input('page', 1) - 1) * 5);
-
         $blogPosts = BlogPost::latest()->paginate(20);
-        return view('home', ['blogPosts' => $blogPosts]);
+
+        return view('home',compact('blogPosts'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\BlogPost  $blogPost
+     * @return \Illuminate\Http\Response
+     */
+    public function show(BlogPost $blogpost)
+    {
+        return view('blogpost.show',compact('blogpost'));
     }
 }

@@ -7,7 +7,7 @@
                 <h2>Edit Post</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('members.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('home') }}"> Back</a>
             </div>
         </div>
     </div>
