@@ -104,9 +104,7 @@ class BlogPostController extends Controller
             'content' => 'required'
         ]);
 
-        $data = array_merge($request->all(), ['user_id' => Auth::id()]);
-
-        $blogpost->update($data);
+        $blogpost->update($request->all());
         $blogpost->save();
 
         return redirect()
@@ -133,9 +131,16 @@ class BlogPostController extends Controller
             ->with('success','Post deleted successfully');
     }
 
+    /**
+     * Check that a user can edit/update/delete
+     *
+     * @param $blogPostId
+     * @return bool
+     */
     private function checkUser ($blogPostId) {
 
         $blogPost = BlogPost::find($blogPostId);
-        return $blogPost instanceof BlogPost && $blogPost->user->id == Auth::id();
+        $isAdmin = Auth::user() && Auth::user()->admin;
+        return $blogPost instanceof BlogPost && ($blogPost->user->id == Auth::id() || $isAdmin);
     }
 }
