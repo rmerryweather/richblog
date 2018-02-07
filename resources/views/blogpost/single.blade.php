@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">{{$blogpost->title}}<span class="pull-right">By: {{$blogpost->user->name}}</span></div>
+    <div class="panel-heading">{{$blogpost->title}}<span class="pull-right">{{date('d-m-Y', strtotime($blogpost->created_at))}} By: {{$blogpost->user->name}}</span></div>
     <div class="panel-body">
         @if(Route::currentRouteName() == 'blogposts.show')
             {!! nl2br(e($blogpost->content)) !!}
@@ -23,3 +23,5 @@
         </div>
     </div>
 </div>
+
+;
