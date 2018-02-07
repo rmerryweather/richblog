@@ -25,7 +25,7 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        $blogPosts = BlogPost::latest()->paginate(20);
+        $blogPosts = BlogPost::latest()->paginate(10);
 
         return view('home',compact('blogPosts'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
