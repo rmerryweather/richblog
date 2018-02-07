@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\BlogPost;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,21 +16,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+//        $members = Member::latest()->paginate(10);
+//        return view('members.index',compact('members'))
+//            ->with('i', (request()->input('page', 1) - 1) * 5);
 
-    /**
-     * Test method for Rich to test with
-     */
-    public function test()
-    {
-        $blogs = Blog::all();
-        var_dump($blogs);exit;
-
-        // TODO clean all this up later - but it is working for now!
-
-        $blog = new Blog();
-        $blog->name = 'RARRRGHLRBK';
-        $blog->save();
+        $blogPosts = BlogPost::latest()->paginate(20);
+        return view('home', ['blogPosts' => $blogPosts]);
     }
 }

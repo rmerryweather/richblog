@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a href="{{ route('blogposts.create') }}" class="btn btn-info btn-sm">Post</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -70,7 +70,9 @@
                 </div>
             </div>
         </nav>
-
+        <div class="container">
+            @include('flash')
+        </div>
         @yield('content')
     </div>
 
