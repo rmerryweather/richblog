@@ -66,7 +66,7 @@ class BlogPostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BlogPost  $blogPost
+     * @param  \App\BlogPost  $blogpost
      * @return \Illuminate\Http\Response
      */
     public function show(BlogPost $blogpost)
@@ -77,10 +77,10 @@ class BlogPostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BlogPost  $blogPost
+     * @param  \App\BlogPost  $blogpost
      * @return \Illuminate\Http\Response
      */
-    public function edit(BlogPost $blogPost)
+    public function edit(BlogPost $blogpost)
     {
         return view('blogpost.edit',compact('blogpost'));
     }
@@ -89,12 +89,12 @@ class BlogPostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BlogPost  $blogPost
+     * @param  \App\BlogPost  $blogpost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BlogPost $blogPost)
+    public function update(Request $request, BlogPost $blogpost)
     {
-        if (!$this->checkUser($blogPost->id)) {
+        if (!$this->checkUser($blogpost->id)) {
             return redirect()->route('home')
                 ->with('error','This is not your post');
         }
@@ -106,11 +106,11 @@ class BlogPostController extends Controller
 
         $data = array_merge($request->all(), ['user_id' => Auth::id()]);
 
-        $blogPost->update($data);
-        $blogPost->save();
+        $blogpost->update($data);
+        $blogpost->save();
 
         return redirect()
-            ->route('blogposts.show', $blogPost)
+            ->route('blogposts.show', $blogpost)
             ->with('success','Blog post updated successfully');
     }
 
